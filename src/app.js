@@ -1,4 +1,4 @@
-const STORAGE_KEYS = {
+﻿const STORAGE_KEYS = {
   certificados: "gestum.certificados",
   usuarios: "gestum.usuarios",
   auditoria: "gestum.auditoria",
@@ -64,7 +64,7 @@ class Certificado {
 
   obterStatusCalculado() {
     if (this.status !== "auto") {
-      return this.status;
+      return this.normalizarStatus(this.status);
     }
 
     if (this.estaVencido()) {
@@ -72,10 +72,15 @@ class Certificado {
     }
 
     if (this.estaDentroDoPrazoDeAlerta()) {
-      return "Próximo do vencimento";
+      return "Atenção";
     }
 
     return "Ativo";
+  }
+
+  normalizarStatus(status) {
+    const statusNormalizado = status.toLowerCase();
+    return statusNormalizado.includes("ximo do vencimento") ? "Atenção" : status;
   }
 }
 
@@ -235,7 +240,7 @@ class CertificadoService {
     return {
       total: certificados.length,
       ativos: certificados.filter((item) => item.statusCalculado === "Ativo").length,
-      proximos: certificados.filter((item) => item.statusCalculado === "Próximo do vencimento").length,
+      proximos: certificados.filter((item) => item.statusCalculado === "Atenção").length,
       vencidos: certificados.filter((item) => item.statusCalculado === "Vencido").length,
     };
   }
@@ -246,19 +251,19 @@ class CertificadoService {
     }
 
     if (!dados.responsavel.trim()) {
-      throw new Error("Informe o responsavel pelo certificado.");
+      throw new Error("Informe o responsável pelo certificado.");
     }
 
     if (!dados.email.trim()) {
-      throw new Error("Informe o e-mail do responsavel.");
+      throw new Error("Informe o e-mail do responsável.");
     }
 
     if (!dados.dataEmissao || !dados.dataVencimento) {
-      throw new Error("Informe as datas de emissao e vencimento.");
+      throw new Error("Informe as datas de emissão e vencimento.");
     }
 
     if (new Date(dados.dataVencimento) < new Date(dados.dataEmissao)) {
-      throw new Error("A data de vencimento deve ser igual ou posterior a data de emissao.");
+      throw new Error("A data de vencimento deve ser igual ou posterior à data de emissão.");
     }
   }
 
@@ -743,9 +748,13 @@ class CertificadoController {
   }
 
   obterClasseStatus(status) {
+    if (status.toLowerCase().includes("ximo do vencimento")) {
+      return "status-proximo";
+    }
+
     return {
       Ativo: "status-ativo",
-      "Proximo do vencimento": "status-proximo",
+      Atenção: "status-proximo",
       Vencido: "status-vencido",
       Renovado: "status-renovado",
     }[status] || "status-ativo";
@@ -899,7 +908,7 @@ class CertificadoController {
         descricao: "Certificado digital para assinatura de documentos.",
       },
       {
-        nome: "Licenca de software CAD",
+        nome: "Licença de software CAD",
         responsavel: "Nicolas Freitas",
         email: "nicolas.freitas@empresa.com",
         dataEmissao: dataRelativa(-40),
@@ -932,7 +941,7 @@ class CertificadoController {
         dataEmissao: dataRelativa(-330),
         dataVencimento: dataRelativa(-3),
         status: "auto",
-        descricao: "Apolice vinculada a responsabilidade técnica.",
+        descricao: "Apólice vinculada à responsabilidade técnica.",
       },
     ];
 
@@ -984,3 +993,4 @@ if (typeof document !== "undefined") {
 
   certificadoController.iniciar();
 }
+

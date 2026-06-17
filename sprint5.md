@@ -18,7 +18,7 @@ O MVP implementado contempla:
 * consulta de detalhes de um certificado;
 * edição de dados básicos;
 * cálculo de dias restantes até o vencimento;
-* classificação de status como ativo, próximo do vencimento, vencido ou renovado;
+* classificação de status como ativo, atenção, vencido ou renovado;
 * filtro por status;
 * busca por nome, responsável, e-mail ou status;
 * dashboard com totais de certificados;
