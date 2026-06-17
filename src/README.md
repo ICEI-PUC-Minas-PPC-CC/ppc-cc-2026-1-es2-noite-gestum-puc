@@ -1,11 +1,27 @@
 # Instruções de utilização
 
-## Instalação do Site
+## Instalação do site
 
-O site em HTML/CSS/JS é um projeto estático, logo pode ser utilizado tanto em servidores...
+O MVP do Gestum foi implementado como um projeto estático em HTML, CSS e JavaScript.
+
+Para executar, abra o arquivo `index.html` no navegador.
+
+Também é possível executar a pasta `src` em um servidor local simples, caso o ambiente de demonstração exija uma URL local.
+
+## Funcionalidades disponíveis
+
+* Cadastro de certificados.
+* Listagem e busca de certificados.
+* Filtro por status.
+* Edição de certificados.
+* Consulta de detalhes.
+* Dashboard com resumo.
+* Log básico de auditoria.
 
 ## Histórico de versões
 
-### [0.1.0] - DD/MM/AAAA
+### [0.1.0] - 16/06/2026
+
 #### Adicionado
-- Adicionado ...
+
+* Implementado MVP de gerenciamento básico de certificados.
